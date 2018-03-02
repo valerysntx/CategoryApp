@@ -5,6 +5,7 @@ using Xunit;
 using CategoriesApp;
 using CategoriesApp.Extentions;
 using CategoriesApp.Model;
+using CategoriesApp.Repository;
 
 namespace CategoriesUnitTests
 {

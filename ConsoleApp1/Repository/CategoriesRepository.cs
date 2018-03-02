@@ -4,12 +4,12 @@ using System.Linq;
 using CategoriesApp.Extentions;
 using CategoriesApp.Model;
 
-namespace CategoriesApp
+namespace CategoriesApp.Repository
 {
     /// <summary>
     /// Implementation of A and B tasks
     /// </summary>
-    public class CategoriesRepository: AbstractCategoriesRepository
+    public class CategoriesRepository: AbstractCategoriesRepository<Category>
     {
         /// <summary>
         /// Categories with level

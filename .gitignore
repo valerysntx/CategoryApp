@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/CategoriesApp/v15
+/CategoriesUnitTests/bin/Debug/netcoreapp2.0
+/CategoriesUnitTests/obj
+/ConsoleApp1/bin/Debug/netcoreapp2.0
+/ConsoleApp1/obj
+/CategoriesApp.sln.DotSettings.user
+/CategoriesApp.zip

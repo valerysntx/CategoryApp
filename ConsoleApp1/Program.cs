@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using CategoriesApp.Model;
+using CategoriesApp.Repository;
 using Newtonsoft.Json;
 
 namespace CategoriesApp

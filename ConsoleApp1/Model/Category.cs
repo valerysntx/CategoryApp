@@ -1,40 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CategoriesApp.Model
 {
     /// <summary>
     ///  Category Node
     /// </summary>
-    public class Category
+    public sealed class Category : CategoryBase
     {
-        public int Id { get; set; }
-        public int ParentId
-        {
-            get
-            {
-                if (Parent != null) return Parent.Id;
-                return -1;
-            }
-        }
-
-        public string Name { get; set; }
-        public string Keywords { get; set; }
-
-        public virtual Category Parent { get; set; }
-        public virtual IList<Category> Child { get; }
-
-        public int Level
-        {
-            get
-            {
-                if (Parent != null)
-                {
-                    return Parent.Level + 1;
-                }
-                return 1;
-            }
-        }
+        public Category Parent { get; set; }
+        public IEnumerable<Category> Child { get; }
 
         public Category(int id, 
                         string name = null, 
@@ -43,15 +19,46 @@ namespace CategoriesApp.Model
         {
             Id = id;
             Name = string.IsNullOrEmpty(name) ? Guid.NewGuid().ToString("N") : name;
-            Keywords = keywords;
+            base.Keywords = keywords;
             
-            Child = child == null ? null : new List<Category>(child);
+            Child =  new List<Category>(child).Select(x=> x);
 
-            FixRecursively(child, this);
+            FixRecursively(Child, this);
         }
 
+        public int ParentId
+        {
+            get {
+                if (Parent != null) return Parent.Id;
+                return -1;
+            }
+        }
 
-        void FixRecursively(ICollection<Category> categories, Category parent)
+        public int Level
+        {
+            get {
+                if (Parent != null)
+                {
+                    return Parent.Level + 1;
+                }
+                return 1;
+            }
+        }
+
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="category"/> is <see langword="null"/>
+        /// </exception>
+        public string GetKeywords(Category category)
+        {
+            if (category == null) throw new ArgumentNullException(nameof(category));
+            var keywords = ((category)as CategoryBase).Keywords;
+            if (string.IsNullOrEmpty(keywords)) keywords = GetKeywords(category.Parent);
+            return keywords;
+        }
+
+        public new string Keywords => string.IsNullOrEmpty(base.Keywords) ? GetKeywords(this) : base.Keywords;
+
+        void FixRecursively(IEnumerable<Category> categories, Category parent)
         {
             if (categories != null)
                 foreach (var category in categories)

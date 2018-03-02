@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using CategoriesApp.Model;
 
-namespace CategoriesApp
+namespace CategoriesApp.Repository
 {
-    public abstract class AbstractCategoriesRepository
+    /// <inheritdoc />
+    public abstract class AbstractCategoriesRepository<TCategory> : ICategoriesRepository<TCategory> 
+                          where TCategory: ICategoryBase
     {
-        public abstract Category GetById(int id);
-        public abstract ICollection<Category> CategoryNthLevel(int nth);
+        public abstract TCategory GetById(int id);
+        public abstract ICollection<TCategory> CategoryNthLevel(int nth);
     }
 }
